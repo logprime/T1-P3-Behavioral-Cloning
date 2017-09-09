@@ -19,13 +19,11 @@ The goals / steps of this project are the following:
 [//]: # (Image References)
 
 [image1]: ./examples/nVidia_model.png "Model Visualization"
-[image2]: ./examples/conv_arch.png "Convolution Architecture"
-[image3]: ./examples/center.jpg "Simulator"
-[image4]: ./examples/my_model.PNG "Convolutional Neural Network in Keras"
-[image5]: ./examples/training4.PNG "4 Epochs"
-[image6]: ./examples/training8.PNG "8 Epochs"
-[image7]: ./examples/car_driving.PNG "Autonomous Mode"
-[image8]: ./examples/flipped.png "Flipped Images"
+[image2]: ./examples/center.jpg "Simulator"
+[image3]: ./examples/my_model.PNG "Convolutional Neural Network in Keras"
+[image4]: ./examples/training8.PNG "8 Epochs"
+[image5]: ./examples/car_driving.PNG "Autonomous Mode"
+[image6]: ./examples/flipped.png "Flipped Images"
 
 ## Rubric Points
 ### Here I will consider the [rubric points](https://review.udacity.com/#!/rubrics/432/view) individually and describe how I addressed each point in my implementation.  
@@ -65,15 +63,15 @@ The modified general structure of the model is based on an end-to-end convolutio
 
 The network consists of 12 layers, including a normalization layer, 5 convolutional layers and 3 fully connected layers.  Here is the structure of the model I used:-
 
-![image4]
+![image3]
 
 Firstly, we use Keras' lambda feature to normalize the images. Then we crop out the front of the car in the bottom of the image and the sky from the top, using the Cropping2D method. 
 
 The model's first 3 convolutional layers have a 2 X 2 stride, 5 X 5 kernel and a relu activation similar to what is shown in nVidia paper. The last 2 convolutional layers are non-strided, with a 3 X 3 kernel size. Following the convolutional layers, we have a flatten layer, followed by the 3 fully-connected layers featuring 100, 50 and finally 1 neuron.
 
-Results after 4 epochs
+Results after 8 epochs
 
-![image5]
+![image4]
 
 #### 2. Attempts to reduce overfitting in the model
 
@@ -87,7 +85,11 @@ The model used an adam optimizer, so the learning rate was not tuned manually (m
 
 Training data was chosen to keep the vehicle driving on the road. I used a combination of center lane driving, recovering from the left and right sides of the road.
 
-I used Udacity's dataset to create additional dataset.
+I sourced Udacity's dataset to create additional dataset by data augmentation that included:-
+
+ - Including all three camera angle images
+ - Adding random brightness to images
+ - Flipping images horizontally 
 
 For details about how I created the training data, see the next section. 
 
@@ -104,7 +106,7 @@ My first step was to use a linear regression model similar to the to the one in 
 
 Once I had confidence on this process, I started tweaking the model by first increasing the dataset using all the three camera images and then augmenting the dataset using additional horizontally flipped images  from the three (center, left and right) images.
 
-![image8]
+![image6]
 
 Similarly I added random brightness and then cropped the dataset to make my training go faster. Here's the code:
 
@@ -135,17 +137,15 @@ model.add(Cropping2D(cropping=((70,25),(1,1))))
 
 In order to gauge how well the model was working, I split my image and steering angle data into a training and validation set. I started by looking at small number of epocs (4). I found that the car was able to drive half way through the tracks and then it got stuck since it was over steering in left direction. 
 
-![image5]
-
 To combat this , I modified the model by including the left and right side images and adding a 0.2 steering angle correction for left images, and subtract the same amount for right images. 
 
 With additional tweaks of the nVidia model and guidance from the Udacity video [here](http://bit.ly/2kwk5kz). I also ran the model longer until my loss started oscillating at which point, further training was not helpful.
 
-![image6]
+![image4]
 
 At the end of the process, the vehicle is able to drive autonomously around the track without leaving the road.
 
-![image7]
+![image5]
 
 #### 2. Final Model Architecture
 
