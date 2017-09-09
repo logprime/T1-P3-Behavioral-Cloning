@@ -20,10 +20,12 @@ The goals / steps of this project are the following:
 
 [image1]: ./examples/nVidia_model.png "Model Visualization"
 [image2]: ./examples/conv_arch.png "Convolution Architecture"
-[image3]: ./examples/center_2016_12_01_13_30_48_287.jpg "Simulator"
-[image4]: ./examples/model.PNG "Convolutional Neural Network in Keras"
-[image5]: ./examples/model_results.PNG "Model Results"
-[image6]: ./examples/car_driving.PNG "Autonomous Mode"
+[image3]: ./examples/center.jpg "Simulator"
+[image4]: ./examples/my_model.PNG "Convolutional Neural Network in Keras"
+[image5]: ./examples/training4.PNG "4 Epochs"
+[image6]: ./examples/training8.PNG "8 Epochs"
+[image7]: ./examples/car_driving.PNG "Autonomous Mode"
+[image8]: ./examples/flipped.png "Flipped Images"
 
 ## Rubric Points
 ### Here I will consider the [rubric points](https://review.udacity.com/#!/rubrics/432/view) individually and describe how I addressed each point in my implementation.  
@@ -58,14 +60,12 @@ The training of the model is based on 8036 snaps of 3 camera angles: center, lef
 The modified general structure of the model is based on an end-to-end convolution neural network architecture  described by Nvidia [here](http://bit.ly/1T206A2). 
 
 <p align="center">
- <img src="./examples/nVidia_model.png" height="600">
+<img src="./examples/nVidia_model.png" height="600">
 </p>
 
 The network consists of 12 layers, including a normalization layer, 5 convolutional layers and 3 fully connected layers.  Here is the structure of the model I used:-
 
-<p align="center">
- <img src="./examples/my_model.png" height="600">
-</p>
+![image4]
 
 Firstly, we use Keras' lambda feature to normalize the images. Then we crop out the front of the car in the bottom of the image and the sky from the top, using the Cropping2D method. 
 
@@ -73,10 +73,7 @@ The model's first 3 convolutional layers have a 2 X 2 stride, 5 X 5 kernel and a
 
 Results after 4 epochs
 
-<p align="center">
- <img src="./examples/Training.PNG" height="600">
-</p>
-
+![image5]
 
 #### 2. Attempts to reduce overfitting in the model
 
@@ -107,9 +104,7 @@ My first step was to use a linear regression model similar to the to the one in 
 
 Once I had confidence on this process, I started tweaking the model by first increasing the dataset using all the three camera images and then augmenting the dataset using additional horizontally flipped images  from the three (center, left and right) images.
 
-<p align="center">
- <img src="./examples/flipped.PNG" height="600">
-</p>
+![image8]
 
 Similarly I added random brightness and then cropped the dataset to make my training go faster. Here's the code:
 
@@ -119,13 +114,13 @@ Dataset Augmentation
 add_images = []
 add_measurements = []
 for image, measurement in zip(images, measurements):
-	add_images.append(image)
-	add_measurements.append(measurement)
-	# Flip images to reduce bias from anti-clockwise driving
-	flipped_image = cv2.flip(image, 1)
-	flipped_measurement = float(measurement) * -1.0
-	add_images.append(flipped_image)
-	add_measurements.append(flipped_measurement)
+                add_images.append(image)
+                add_measurements.append(measurement)
+                # Flip images to reduce bias from anti-clockwise driving
+                flipped_image = cv2.flip(image, 1)
+                flipped_measurement = float(measurement) * -1.0
+                add_images.append(flipped_image)
+                add_measurements.append(flipped_measurement)
 
 X_train = np.array(add_images[])
 y_train = np.array(add_measurements[])
@@ -140,15 +135,17 @@ model.add(Cropping2D(cropping=((70,25),(1,1))))
 
 In order to gauge how well the model was working, I split my image and steering angle data into a training and validation set. I started by looking at small number of epocs (4). I found that the car was able to drive half way through the tracks and then it got stuck since it was over steering in left direction. 
 
-<p align="center">
- <img src="./examples/training4.PNG" height="600">
-</p>
+![image5]
 
 To combat this , I modified the model by including the left and right side images and adding a 0.2 steering angle correction for left images, and subtract the same amount for right images. 
 
-With additional tweaks of the nVidia model and guidance from the Udacity video [here](http://bit.ly/2kwk5kz).
+With additional tweaks of the nVidia model and guidance from the Udacity video [here](http://bit.ly/2kwk5kz). I also ran the model longer until my loss started oscillating at which point, further training was not helpful.
+
+![image6]
 
 At the end of the process, the vehicle is able to drive autonomously around the track without leaving the road.
+
+![image7]
 
 #### 2. Final Model Architecture
 
