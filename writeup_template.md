@@ -1,8 +1,8 @@
-#**Behavioral Cloning** 
+# **Behavioral Cloning** 
 
-##Writeup 
+## Writeup 
 
-###This is a write up for the third project that involves behavioral cloning using CNNs.
+### This is a write up for the third project that involves behavioral cloning using CNNs.
 
 ---
 
@@ -26,12 +26,12 @@ The goals / steps of this project are the following:
 [image6]: ./examples/car_driving.PNG "Autonomous Mode"
 
 ## Rubric Points
-###Here I will consider the [rubric points](https://review.udacity.com/#!/rubrics/432/view) individually and describe how I addressed each point in my implementation.  
+### Here I will consider the [rubric points](https://review.udacity.com/#!/rubrics/432/view) individually and describe how I addressed each point in my implementation.  
 
 ---
-###Files Submitted & Code Quality
+### Files Submitted & Code Quality
 
-####1. Submission includes all required files and can be used to run the simulator in autonomous mode
+#### 1. Submission includes all required files and can be used to run the simulator in autonomous mode
 
 My project includes the following files:
 * model.py containing the script to create and train the model
@@ -39,19 +39,19 @@ My project includes the following files:
 * model.h5 containing a trained convolution neural network 
 * writeup_report.md or writeup_report.pdf summarizing the results
 
-####2. Submission includes functional code
+#### 2. Submission includes functional code
 Using the Udacity provided simulator and my drive.py file, the car can be driven autonomously around the track by executing 
 ```sh
 python drive.py model.h5
 ```
 
-####3. Submission code is usable and readable
+#### 3. Submission code is usable and readable
 
 The model.py file contains the code for training and saving the convolution neural network. The file shows the pipeline I used for training and validating the model, and it contains comments to explain how the code works.
 
-###Model Architecture and Training Strategy
+### Model Architecture and Training Strategy
 
-####1. An appropriate model architecture has been employed
+#### 1. An appropriate model architecture has been employed
 
 The training of the model is based on 8036 snaps of 3 camera angles: center, left and right. The total image dataset includes all the 3 angles with total dataset of 24,108 images. I worked with data set provided by Udacity as my dataset of 1 lap of training was not adequate. he images are in three colums, snapped from center, right and left cameras. They have a corresponding steering angle -- the steer the car had to make in that frame to stay on the track. We load both into ```images[]``` and ```measurements``` arrays as introduced in ```clone.py```.
 
@@ -78,15 +78,15 @@ Results after 4 epochs
 </p>
 
 
-####2. Attempts to reduce overfitting in the model
+#### 2. Attempts to reduce overfitting in the model
 
 The model was trained and validated on different data sets to ensure that the model was not overfitting (code line 51-61). The model was tested by running it through the simulator and ensuring that the vehicle could stay on the track.
 
-####3. Model parameter tuning
+#### 3. Model parameter tuning
 
 The model used an adam optimizer, so the learning rate was not tuned manually (model.py line 89).
 
-####4. Appropriate training data
+#### 4. Appropriate training data
 
 Training data was chosen to keep the vehicle driving on the road. I used a combination of center lane driving, recovering from the left and right sides of the road.
 
@@ -94,9 +94,9 @@ I used Udacity's dataset to create additional dataset.
 
 For details about how I created the training data, see the next section. 
 
-###Model Architecture and Training Strategy
+### Model Architecture and Training Strategy
 
-####1. Solution Design Approach
+#### 1. Solution Design Approach
 
 The overall strategy for deriving a model architecture was to ...
 
@@ -150,7 +150,7 @@ With additional tweaks of the nVidia model and guidance from the Udacity video [
 
 At the end of the process, the vehicle is able to drive autonomously around the track without leaving the road.
 
-####2. Final Model Architecture
+#### 2. Final Model Architecture
 
 The final model architecture is shown below:-
 ```
@@ -173,7 +173,7 @@ This is also described in section 1.
 The network consists of normalization layer followed by 5 convolution layers followed by 4 fully connected layers. 
 
 
-####3. Creation of the Training Set & Training Process
+#### 3. Creation of the Training Set & Training Process
 
 Although I was able to run the car in a training mode, I was not able to drive the car in a controlled fashion 
 
